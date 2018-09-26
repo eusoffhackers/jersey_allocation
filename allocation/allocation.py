@@ -24,6 +24,8 @@ class Allocation(OrderedDict):
     def has_conflict(self, request):
         if request.person in self:
             return True
+        if request.wish() < 1 or request.wish() > 99:
+            return True
         for person in self: # TODO: check the teams also
             if request.wish() == self[person]:
                 return True

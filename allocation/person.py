@@ -7,7 +7,6 @@ class Person:
     """
     person1 = Person(
         id="ABC",
-        name="Kien Nguyen",
         pts=10,
         opt1=98,
         opt2=76,
@@ -19,8 +18,8 @@ class Person:
         self.__dict__.update(kwargs)
 
     def __repr__(self):
-        return "Person(%s, %s, %d, %d, %d, %d)" % (
-            self.id, self.name, self.pts,
+        return "Person(%s, %d, %d, %d, %d)" % (
+            self.id, self.pts,
             self.opt1, self.opt2, self.opt3,
         )
     
