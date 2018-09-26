@@ -18,5 +18,9 @@ class RequestList(list):
         requests = sorted(requests, key = fn)
         return RequestList(requests)
     
+    @staticmethod
+    def random():
+        return RequestList.from_people(People.random())
+    
 if __name__ == '__main__':
-    print(RequestList.from_people(People.random()))
+    print(RequestList.random())

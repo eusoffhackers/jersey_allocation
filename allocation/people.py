@@ -22,7 +22,7 @@ class People(list):
         return people
     
     @staticmethod
-    def random(n=10):
+    def random(n=50):
         return People([Person.random() for i in range(n)])
 
 if __name__ == '__main__':

@@ -41,10 +41,10 @@ class Person:
         return Person(
             id = __randstr(8),
             name = (__randstr(4) + " " + __randstr(4)).title(),
-            pts = random.randrange(10, 100),
-            opt1 = random.randrange(10, 100),
-            opt2 = random.randrange(10, 100),
-            opt3 = random.randrange(10, 100)
+            pts = random.randrange(10, 20),
+            opt1 = random.randrange(80, 100),
+            opt2 = random.randrange(80, 100),
+            opt3 = random.randrange(80, 100)
         )
 
 if __name__ == '__main__':
