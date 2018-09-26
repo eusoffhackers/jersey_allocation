@@ -11,6 +11,9 @@ class Request:
         
     def __repr__(self):
         return ("Request(person = %s, rank = %s)" % (self.person, self.rank))
+    
+    def wish(self):
+        return self.person.wish(self.rank)
 
 if __name__ == '__main__':
     r = Request(Person.random(), 2)
