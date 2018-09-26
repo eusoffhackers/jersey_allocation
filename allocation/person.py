@@ -17,12 +17,15 @@ class Person:
     
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
-        
+
     def __repr__(self):
         return "Person(%s, %s, %d, %d, %d, %d)" % (
             self.id, self.name, self.pts,
             self.opt1, self.opt2, self.opt3,
         )
+    
+    def wish(self, rank):
+        return [self.opt1, self.opt2, self.opt3][rank]
 
     @staticmethod
     def from_string(line):

@@ -5,11 +5,9 @@ from person import Person
 
 class People(list):
     
-    def __init__(self, source = []):
-        super(People, self).__init__(source)
-    
     def __str__(self):
-        return '\n'.join(map(str, self))
+        header = "People (len=%d)\n" % len(self)
+        return header + '\n'.join(map(str, self))
     
     @staticmethod
     def from_stdin():
@@ -22,8 +20,13 @@ class People(list):
             else:
                 break
         return people
+    
+    @staticmethod
+    def random(n=10):
+        return People([Person.random() for i in range(n)])
 
 if __name__ == '__main__':
+    print(People.random())
     a = People.from_stdin()
     print(a)
 
