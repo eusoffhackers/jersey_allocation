@@ -2,16 +2,20 @@
 
 import sys
 import pandas
+import copy
 from collections import OrderedDict
 from shutil import copyfile
 
 class Allocation:
 
     def __init__(self):
-        self.allocated = OrderedDict()
+        self.allocation = OrderedDict()
 
     def __repr__(self):
-        return str(self.allocated)
+        return str(self.allocation)
+    
+    def clone(self):
+        return copy.deepcopy(self)
 
     def load_from_stdin(self):
         for line in sys.stdin:
@@ -19,15 +23,15 @@ class Allocation:
                 continue
             tokens = line.split(' ')
             id, number = tokens[0], int(tokens[1])
-            self.allocated[id] = number
+            self.allocation[id] = number
 
     def load_from_csv(self, filepath):
         try:
             df = pandas.read_csv(filepath, header=None, index_col=0)
-            self.allocated = df[1].to_dict(OrderedDict)
+            self.allocation = df[1].to_dict(OrderedDict)
         except FileNotFoundError:
             print("{} not found, fallback to empty data", filepath)
-            self.allocated = OrderedDict()
+            self.allocation = OrderedDict()
 
     def save_to_csv(self, filepath):
         try:
@@ -35,7 +39,7 @@ class Allocation:
         except FileNotFoundError:
             pass
 
-        df = pandas.DataFrame.from_dict(self.allocated, orient='index')
+        df = pandas.DataFrame.from_dict(self.allocation, orient='index')
         df.to_csv(filepath, header=False)
 
 if __name__ == '__main__':
