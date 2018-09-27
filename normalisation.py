@@ -132,7 +132,8 @@ def calculate_points():
 calculate_points()
 data_frame["total_points"] = final_score
 
-
+# uncooment to test against SMC_test_data_2.csv
+'''
 print(" FINAL POINTS")
 print(final_score)
 print()
@@ -145,7 +146,7 @@ print()
 print(" ALL SPORTS REPRESENTED : ")
 print(all_sports_represented_IVP_SUNIG_list)
 print()
-
+'''
 
 data_frame["captain_points"] = is_captain_score_list
 data_frame["sports_enrolled_in_points"] = all_sports_enrolled_in_score_list
