@@ -22,10 +22,11 @@ class Allocation(OrderedDict):
             for i in range(n)
         ])
     
-    def has_conflict(self, request, sharable):
-        if request.person in self or request.wish() == -1:
+    def has_conflict(self, request):
+        if (request.person in self and self[request.person] != -1) or request.wish() == -1:
             return True
-        return any(request.is_conflicted_with(person, self[person], sharable)
+        return any(
+            request.is_conflicted_with(person, self[person])
             for person in self
         )
     
@@ -40,9 +41,9 @@ class Allocation(OrderedDict):
             result[request.person] = request.wish()
         return result
     
-    def add_bucket_naively(self, bucket, sharable):
+    def add_bucket_naively(self, bucket):
         bucket = RequestList(filter(
-            lambda r: not self.has_conflict(r, sharable),
+            lambda r: not self.has_conflict(r),
             bucket
         ))
 
@@ -50,7 +51,7 @@ class Allocation(OrderedDict):
         poor_bucket = RequestList()
         
         for request in bucket:
-            if any(request.is_conflicted_with(another.person, another.wish(), sharable)
+            if any(request.is_conflicted_with(another.person, another.wish())
                 for another in bucket
                 if another != request
             ):
@@ -73,25 +74,15 @@ class Allocation(OrderedDict):
         
         return result
     
-    def add_bucket_list_naively(self, bucket_list, sharable):
-        assert isinstance(sharable, bool)
+    def add_bucket_list_naively(self, bucket_list):
         result = self
         for bucket in bucket_list:
-            result = result.add_bucket_naively(bucket, sharable)
+            result = result.add_bucket_naively(bucket)
+        for bucket in bucket_list:
+            for request in bucket:
+                if request.person not in result:
+                    result[request.person] = -1
         return result
-
-    """
-    @staticmethod
-    def from_stdin():
-        allocation = Allocation()
-        for line in sys.stdin:
-            if line == '':
-                continue
-            tokens = line.split(' ')
-            id, number = tokens[0], int(tokens[1])
-            allocation[id] = number
-        return allocation
-    """
 
     @staticmethod
     def from_csv(filepath, people):

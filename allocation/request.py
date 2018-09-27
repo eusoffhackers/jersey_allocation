@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+UNSHARABLE_WAVES = [1, 2]
+
 from person import Person
 
 class Request:
@@ -15,11 +17,13 @@ class Request:
     def wish(self):
         return self.person.wish(self.rank)
     
-    def is_conflicted_with(self, person, allocated_number, sharable):
+    def is_conflicted_with(self, person, allocated_number):
         wish = self.wish()
         assert wish >= 1 and wish <= 99
+        if allocated_number == -1:
+            return False
         if wish == allocated_number:
-            if not sharable:
+            if person.wave in UNSHARABLE_WAVES:
                 return True
             if bool(set(self.person.sports) & set(person.sports)):
                 return True
