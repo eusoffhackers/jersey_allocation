@@ -22,41 +22,62 @@ class Allocation(OrderedDict):
             for i in range(n)
         ])
     
-    def has_conflict(self, request):
-        if request.person in self:
+    def has_conflict(self, request, sharable):
+        if request.person in self or request.wish() == -1:
             return True
-        if request.wish() < 1 or request.wish() > 99:
-            return True
-        for person in self:
-            if request.wish() == self[person]:
-                if bool(set(request.person.sports) & set(person.sports)):
-                    print(set(request.person.sports), set(person.sports), bool(set(request.person.sports) & set(person.sports)))
-                    return True
-        return False
+        return any(request.is_conflicted_with(person, self[person], sharable)
+            for person in self
+        )
     
-    def add(self, person, wish):
+    def appended(self, person, allocated_number): # immutable
         result = Allocation(self)
-        result[person] = wish
+        result[person] = allocated_number
         return result
     
-    def add_bucket_naively(self, bucket):
-        bucket = RequestList(filter(lambda r: not self.has_conflict(r), bucket))
-        if not bucket:
-            return self
-        elif len(bucket) == 1:
-            request = bucket[0]
-            return self.add(request.person, request.wish())
-        else:
-            print("There is a conflict among %d people" % len(bucket))
-            print("\n".join(map(str, bucket)))
-            print("Enter the row number of the winner:")
-            request = bucket[int(input())]
-            return self.add(request.person, request.wish())
+    def extended(self, bucket): # immutable
+        result = Allocation(self)
+        for request in bucket:
+            result[request.person] = request.wish()
+        return result
     
-    def add_bucket_list_naively(self, bucket_list):
+    def add_bucket_naively(self, bucket, sharable):
+        bucket = RequestList(filter(
+            lambda r: not self.has_conflict(r, sharable),
+            bucket
+        ))
+
+        good_bucket = RequestList()
+        poor_bucket = RequestList()
+        
+        for request in bucket:
+            if any(request.is_conflicted_with(another.person, another.wish(), sharable)
+                for another in bucket
+                if another != request
+            ):
+                poor_bucket.append(request)
+            else:
+                good_bucket.append(request)
+        
+        result = self.extended(good_bucket)
+        
+        if poor_bucket:
+            print("There is a conflict among %d people" % len(poor_bucket))
+            print("\n".join(map(
+                lambda i: "Row %d: %s" % (i, poor_bucket[i]),
+                range(len(poor_bucket))
+            )))
+            print("Enter the ROW NUMBERS of the WINNERS:")
+            indexes = map(int, input().split())
+            selected_bucket = map(lambda i: poor_bucket[i], indexes)
+            result = self.extended(selected_bucket)
+        
+        return result
+    
+    def add_bucket_list_naively(self, bucket_list, sharable):
+        assert isinstance(sharable, bool)
         result = self
         for bucket in bucket_list:
-            result = result.add_bucket_naively(bucket)
+            result = result.add_bucket_naively(bucket, sharable)
         return result
 
     """

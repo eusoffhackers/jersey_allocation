@@ -14,7 +14,7 @@ class RequestList(list):
         requests = [Request(person, rank)
             for person in people
             for rank in range(3)]
-        fn = lambda r: (r.rank, r.person.pts, r.person.wish(r.rank))
+        fn = lambda r: (r.person.wave, r.rank, r.person.pts, r.person.wish(r.rank))
         requests = sorted(requests, key = fn)
         return RequestList(requests)
     

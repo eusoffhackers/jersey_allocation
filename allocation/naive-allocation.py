@@ -9,11 +9,15 @@ from bucketlist import BucketList
 from allocation import Allocation
 
 people = People.from_csv(PEOPLE_CSV)
+waves = list(map(int, input("Waves (1, 2, 3, 4, 5): ").split()))
+people = People(filter(lambda person: person.wave in waves, people))
+sharable = input("Sharable [yN]: ").lower() == 'y'
 print(people)
+
 request_list = RequestList.from_people(people)
 bucket_list = BucketList.from_request_list(request_list)
 allocation = Allocation.from_csv(ALLOCATION_CSV, people)
-allocation = allocation.add_bucket_list_naively(bucket_list)
+allocation = allocation.add_bucket_list_naively(bucket_list, sharable)
 print(allocation)
 
 """

@@ -17,7 +17,7 @@ GENDERS = ["Male", "Female"]
 class Person:
     """
     person1 = Person(
-        id="ABC", pts=10, opt1=98, opt2=76, opt3=54,
+        id="ABC", wave=1, pts=10, opt1=98, opt2=76, opt3=54,
         sports=["Swimming M", "Football M", "Frisbee", "Sepak Takraw"],
     )
     """
@@ -29,8 +29,8 @@ class Person:
         shorten_gender = lambda gender: gender[0] if gender in GENDERS else "X"
         shorten = lambda sp: sp[:3] + shorten_gender(sp.split()[-1])
         sports = '+'.join(map(shorten, self.sports))
-        return "Person(%s, %02d, %02d, %02d, %02d, %s)" % (
-            self.id, self.pts, self.opt1, self.opt2, self.opt3, sports
+        return "Person(%s, wave=%01d, pts=%02d, %02d, %02d, %02d, %s)" % (
+            self.id, self.wave, self.pts, self.opt1, self.opt2, self.opt3, sports
         )
     
     def wish(self, rank):
@@ -62,6 +62,7 @@ class Person:
 
         return Person(
             id = row['id'],
+            wave = to_int_def(row['wave'], -1),
             pts = to_int_def(row['pts'], 0),
             opt1 = to_int_def(row['opt1'], -1),
             opt2 = to_int_def(row['opt2'], -1),
