@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 import sys, random
-#import pandas
+import pandas as pd
 from collections import OrderedDict
 #from shutil import copyfile
 from person import Person
+from people import People
 from bucketlist import BucketList
 from requestlist import RequestList
 
@@ -26,9 +27,11 @@ class Allocation(OrderedDict):
             return True
         if request.wish() < 1 or request.wish() > 99:
             return True
-        for person in self: # TODO: check the teams also
+        for person in self:
             if request.wish() == self[person]:
-                return True
+                if bool(set(request.person.sports) & set(person.sports)):
+                    print(set(request.person.sports), set(person.sports), bool(set(request.person.sports) & set(person.sports)))
+                    return True
         return False
     
     def add(self, person, wish):
@@ -56,7 +59,7 @@ class Allocation(OrderedDict):
             result = result.add_bucket_naively(bucket)
         return result
 
-"""
+    """
     @staticmethod
     def from_stdin():
         allocation = Allocation()
@@ -67,17 +70,17 @@ class Allocation(OrderedDict):
             id, number = tokens[0], int(tokens[1])
             allocation[id] = number
         return allocation
-"""
+    """
 
-"""
-    def load_from_csv(self, filepath):
+    @staticmethod
+    def from_csv(filepath, people):
         try:
-            df = pandas.read_csv(filepath, header=None, index_col=0)
-            self.allocation = df[1].to_dict(OrderedDict)
-        except FileNotFoundError:
-            print("{} not found, fallback to empty data", filepath)
-            self.allocation = OrderedDict()
-
+            df = pd.read_csv(filepath, header=None, index_col=0)
+            return Allocation(df[1].to_dict(OrderedDict))
+        except (FileNotFoundError, pd.errors.EmptyDataError) as e:
+            print("NOTE: using empty data, reason: %s" % str(e))
+            return Allocation()
+"""
     def save_to_csv(self, filepath):
         try:
             copyfile(filepath, filepath + '.bak')
@@ -89,10 +92,13 @@ class Allocation(OrderedDict):
 """
 
 if __name__ == '__main__':
-    a = Allocation.random()
-    print(a)
-    b = BucketList.random()
-    print(b)
-    c = a.add_bucket_list_naively(b)
-    print(c)
+    people = People.from_csv('SMC_test_output.csv')
+    allocation = Allocation.from_csv('allocation.csv', people)
+    print(allocation)
+    #a = Allocation.random()
+    #print(a)
+    #b = BucketList.random()
+    #print(b)
+    #c = a.add_bucket_list_naively(b)
+    #print(c)
     

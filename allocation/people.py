@@ -35,23 +35,16 @@ class People(list):
             "second": 'opt2',
             "third": 'opt3',
             "total_points": 'pts',
+            "gender": 'gender',
             "sports": 'sports'
         }
         df = pd.read_csv(filepath)
         df = df.rename(lambda s: str(s).partition(' ')[0].lower(), axis='columns')
         df = df.rename(columns=keep)[list(keep.values())]
         assert set(df) == set(keep.values())
-        
-        to_int_def = lambda x, default: int(str(x)) if str(x).isdigit() else default
-                
+                        
         people = People([
-            Person(
-                id = row['id'],
-                pts = to_int_def(row['pts'], 0),
-                opt1 = to_int_def(row['opt1'], -1),
-                opt2 = to_int_def(row['opt2'], -1),
-                opt3 = to_int_def(row['opt3'], -1)
-            )
+            Person.from_series(row)
             for index, row in df.iterrows()
         ])
         
