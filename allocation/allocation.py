@@ -3,7 +3,7 @@
 import sys, random
 import pandas as pd
 from collections import OrderedDict
-#from shutil import copyfile
+from shutil import copyfile
 from person import Person
 from people import People
 from bucketlist import BucketList
@@ -97,20 +97,26 @@ class Allocation(OrderedDict):
     def from_csv(filepath, people):
         try:
             df = pd.read_csv(filepath, header=None, index_col=0)
-            return Allocation(df[1].to_dict(OrderedDict))
+            keys = df.index.values.tolist()
+            values = df.iloc[:, 0].tolist()
+            keys = [next(person for person in people if person.id == id) for id in keys]
+            return Allocation(zip(keys, values))
         except (FileNotFoundError, pd.errors.EmptyDataError) as e:
             print("NOTE: using empty data, reason: %s" % str(e))
             return Allocation()
-"""
-    def save_to_csv(self, filepath):
+    
+    def to_csv(self, filepath):
         try:
             copyfile(filepath, filepath + '.bak')
         except FileNotFoundError:
             pass
 
-        df = pandas.DataFrame.from_dict(self.allocation, orient='index')
+        mapping = OrderedDict([
+            (key.id, value)
+            for key, value in self.items()
+        ])
+        df = pd.DataFrame.from_dict(mapping, orient='index')
         df.to_csv(filepath, header=False)
-"""
 
 if __name__ == '__main__':
     people = People.from_csv('SMC_test_output.csv')

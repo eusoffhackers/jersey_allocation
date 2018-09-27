@@ -9,8 +9,8 @@ from bucketlist import BucketList
 from allocation import Allocation
 
 people = People.from_csv(PEOPLE_CSV)
-waves = list(map(int, input("Waves (1, 2, 3, 4, 5): ").split()))
-people = People(filter(lambda person: person.wave in waves, people))
+wave = int(input("Wave (1, 2, 3, 4, 5): "))
+people = People(filter(lambda person: person.wave <= wave, people))
 sharable = input("Sharable [yN]: ").lower() == 'y'
 print(people)
 
@@ -19,6 +19,14 @@ bucket_list = BucketList.from_request_list(request_list)
 allocation = Allocation.from_csv(ALLOCATION_CSV, people)
 allocation = allocation.add_bucket_list_naively(bucket_list, sharable)
 print(allocation)
+
+can_save = input("Save to %s [yN]: " % ALLOCATION_CSV).lower() == 'y'
+
+if can_save:
+    allocation.to_csv(ALLOCATION_CSV)
+    print("Saved to %s." % ALLOCATION_CSV)
+else:
+    print("Will not save to %s." % ALLOCATION_CSV)
 
 """
 Example input:
