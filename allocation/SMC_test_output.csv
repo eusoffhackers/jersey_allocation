@@ -44,7 +44,7 @@
 42,10/8/17 12:55,2,ALMCWEJT,Male,No,No,Tennis,14,17,19,0,0,1,1
 43,10/8/17 13:05,2,FLZSWGXE,Male,No,No,"Basketball, Swimming, Touch Rugby",24,2,3,0,0,3,3
 44,10/8/17 13:31,2,XVSRIEPG,Female,No,No,"Floorball, Volleyball",17,19,27,0,0,2,2
-45,10/8/17 13:36,2,LWLJPAVG,Male,No,no,"Frisbee, Swimming, Touch Rugby, Volleyball",4,66,-,0,0,4,4
+45,10/8/17 13:36,2,LWLJPAVG,Male,No,no,"Frisbee, Swimming, Touch Rugby, Volleyball",4,66,,0,0,4,4
 46,10/8/17 13:54,2,WCULFKNT,Female,Yes,no,"Soccer, Swimming",17,11,4,1,0,2,3
 47,10/8/17 14:13,2,RDARQIWR,Male,No,No ,"Sepak Takraw, Soccer",11,17,77,0,0,1,1
 48,10/8/17 14:28,2,DTPMOFGH,Male,No,"Yes, Rugby","Handball, Touch Rugby",8,11,12,0,1,2,3
@@ -61,7 +61,7 @@
 59,10/8/17 22:24,2,CAFIGCML,Male,No,no,Frisbee,14,81,27,0,0,1,1
 60,10/8/17 22:29,2,GTYIHKPJ,Male,Yes,no,Floorball,19,36,22,1,0,1,2
 61,10/8/17 22:57,2,PQSVBJUJ,Female,No,Yes (I think cause i last represented nus softball in 2016 so i should be right? ),Softball,11,23,2,0,0,1,1
-62,10/9/17 0:32,2,MHQNZQVG,Male,No,Floorball,"Floorball, Sepak Takraw",17,2,Smallest available number,0,1,1,2
+62,10/9/17 0:32,2,MHQNZQVG,Male,No,Floorball,"Floorball, Sepak Takraw",17,2,,0,1,1,2
 63,10/9/17 7:01,2,DNECLUWN,Male,No,No,Touch Rugby,,,,0,0,1,1
 64,10/9/17 10:16,3,TYBYIPWS,Female,No,"Yes, soccer (IVP 2017)",Soccer,53,98,70,0,0,1,1
 65,10/9/17 10:18,3,AKGYSVQQ,Female,Yes,No,Frisbee,26,22,28,1,0,1,2
@@ -97,7 +97,7 @@
 95,10/9/17 13:44,3,ICTINBJJ,Male,No,no,"Basketball, Handball",21,28,75,0,0,2,2
 96,10/9/17 13:52,3,QKUBHVSM,Female,No,"Yes, Football",Soccer,3,33,30,0,1,1,2
 97,10/9/17 14:09,3,FFNSKJKY,Female,Yes,no ,"Handball, Netball",28,2,86,1,0,2,3
-98,10/9/17 14:12,3,IMGNVMRT,Male,No,No,"Basketball, Frisbee, Handball, Road Relay, Sepak Takraw, Soccer, Softball, Swimming, Table Tennis, Touch Rugby, Track",13,nil,nil,0,0,10,10
+98,10/9/17 14:12,3,IMGNVMRT,Male,No,No,"Basketball, Frisbee, Handball, Road Relay, Sepak Takraw, Soccer, Softball, Swimming, Table Tennis, Touch Rugby, Track",13,,,0,0,10,10
 99,10/9/17 14:18,3,GICJAVKD,Female,No,"Yes, soccer ",Soccer,36,16,23,0,1,1,2
 100,10/9/17 14:50,3,WDYZHDMP,Female,No,"Yes, Handball","Handball, Netball, Softball",63,14,54,0,1,3,4
 101,10/9/17 15:10,3,TDZASNDZ,Female,No,"IVP, SUNIG: table tennis",Table Tennis,25,22,28,0,0,1,1
@@ -308,7 +308,7 @@
 306,10/10/17 22:54,4,LWHGGMSC,Male,No,no,"Basketball, Frisbee, Handball",97,87,74,0,0,3,3
 307,10/10/17 22:59,4,UVCXMIOB,Male,No,No,"Floorball, Road Relay, Sepak Takraw, Soccer",87,98,92,0,0,3,3
 308,10/10/17 23:18,4,GEXGWZPB,Male,No,No,Squash,82,86,36,0,0,1,1
-309,10/10/17 23:20,4,SZKRCKVC,Male,No,No ,"Road Relay, Track",-,-,-,0,0,2,2
+309,10/10/17 23:20,4,SZKRCKVC,Male,No,No ,"Road Relay, Track",,,,0,0,2,2
 310,10/10/17 23:21,4,LJJKHDFL,Female,No,No,"Floorball, Tennis",35,31,38,0,0,2,2
 311,10/10/17 23:24,4,VKWVKJXK,Male,No,No,Handball,50,88,83,0,0,1,1
 312,10/10/17 23:28,4,PNUKSWSM,Female,No,No,"Frisbee, Squash, Track",92,41,54,0,0,3,3

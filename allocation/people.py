@@ -10,6 +10,7 @@ class People(list):
         header = "People (len=%d)\n" % len(self)
         return header + '\n'.join(map(str, self))
     
+    '''
     @staticmethod
     def from_stdin():
         people = People()
@@ -21,13 +22,14 @@ class People(list):
             else:
                 break
         return people
+    '''
     
     @staticmethod
     def random(n=50):
         return People([Person.random() for i in range(n)])
     
     @staticmethod
-    def from_csv(filepath): # TODO: seperate M and F teams
+    def from_csv(filepath):
         keep = {
             "full": 'id',
             "wave": 'wave',
@@ -38,11 +40,11 @@ class People(list):
             "gender": 'gender',
             "sports": 'sports'
         }
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath, dtype=str).fillna('')
         df = df.rename(lambda s: str(s).partition(' ')[0].lower(), axis='columns')
         df = df.rename(columns=keep)[list(keep.values())]
         assert set(df) == set(keep.values())
-                        
+        
         people = People([
             Person.from_series(row)
             for index, row in df.iterrows()
@@ -52,7 +54,7 @@ class People(list):
 
 if __name__ == '__main__':
     print(People.from_csv('SMC_test_output.csv'))
-    #print(People.random())
+    print(People.random())
     #a = People.from_stdin()
     #print(a)
 

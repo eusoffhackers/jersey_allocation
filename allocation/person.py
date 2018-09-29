@@ -9,9 +9,7 @@ SPORTS = ["Badminton", "Basketball", "Floorball", "Frisbee",
     "Touch Rugby", "Track", "Volleyball"]
 
 NO_SPORTS = ["NIL"]
-
-MIXED_SPORTS = ["Frisbee"] # TODO
-
+MIXED_SPORTS = ["Frisbee", "Swimming", "Track", "Road Relay", "Softball"]
 GENDERS = ["Male", "Female"]
 
 class Person:
@@ -23,6 +21,8 @@ class Person:
     """
     
     def __init__(self, **kwargs):
+        required_keys = {"id", "wave", "pts", "opt1", "opt2", "opt3", "sports"}
+        assert required_keys <= set(kwargs.keys())
         self.__dict__.update(kwargs)
 
     def __repr__(self):
@@ -34,8 +34,10 @@ class Person:
         )
     
     def wish(self, rank):
+        assert rank in [0, 1, 2]
         return [self.opt1, self.opt2, self.opt3][rank]
 
+    '''
     @staticmethod
     def from_string(line):
         a = [s.strip() for s in line.split(',')]
@@ -43,6 +45,7 @@ class Person:
             id=a[0], name=a[1], pts=int(a[2]),
             opt1=int(a[3]), opt2=int(a[4]), opt3=int(a[5])
         )
+    '''
     
     @staticmethod
     def parse_sports(raw_sports, gender):
@@ -50,7 +53,7 @@ class Person:
         if raw_sports in NO_SPORTS:
             return []
         sports = raw_sports.split(', ')
-        assert all(sp in SPORTS for sp in sports)
+        assert set(sports) <= set(SPORTS)
         return [
             sp if sp in MIXED_SPORTS else sp + " " + gender
             for sp in sports
@@ -60,7 +63,7 @@ class Person:
     def from_series(row):
         to_int_def = lambda x, default: int(str(x)) if str(x).isdigit() else default
 
-        return Person(
+        result = Person(
             id = row['id'],
             wave = to_int_def(row['wave'], -1),
             pts = to_int_def(row['pts'], 0),
@@ -69,12 +72,20 @@ class Person:
             opt3 = to_int_def(row['opt3'], -1),
             sports = Person.parse_sports(row['sports'], row['gender'])
         )
+        
+        assert result.wave in [1, 2, 3, 4, 5]
+        assert str(row['opt1']) == "" or result.opt1 != -1, "Cannot parse '%s'" % str(row['opt1'])
+        assert str(row['opt2']) == "" or result.opt2 != -1, "Cannot parse '%s'" % str(row['opt2'])
+        assert str(row['opt3']) == "" or result.opt3 != -1, "Cannot parse '%s'" % str(row['opt3'])
+        
+        return result
     
     @staticmethod
     def random():
         __randstr = lambda n: ''.join(random.choices(string.ascii_uppercase, k=n))
         return Person(
             id = __randstr(8),
+            wave = random.randrange(1, 5),
             name = (__randstr(4) + " " + __randstr(4)).title(),
             pts = random.randrange(10, 20),
             opt1 = random.randrange(80, 100),
