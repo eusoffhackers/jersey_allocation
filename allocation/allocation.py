@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 
-VERBOSITY = 0
+VERBOSITY = 2
 
 import sys, random
 import pandas as pd
+import itertools
 from collections import OrderedDict
 from shutil import copyfile
 from person import Person
 from people import People
 from bucketlist import BucketList
 from requestlist import RequestList
+
+conflict_list = [] # TODO: should not be global variable
 
 class Allocation(OrderedDict):
 
@@ -25,7 +28,7 @@ class Allocation(OrderedDict):
         ])
     
     def has_conflict(self, request):
-        if (request.person in self and self[request.person] != -1) or request.wish() == -1:
+        if (request.person in self and self[request.person] not in [-1, -2]) or request.wish() == -1:
             return True
         return any(
             request.is_conflicted_with(person, self[person])
@@ -43,31 +46,26 @@ class Allocation(OrderedDict):
             result[request.person] = request.wish()
         return result
     
+    def filter_bucket(self, bucket):
+        return RequestList(filter(
+            lambda r: not self.has_conflict(r),
+            bucket
+        ))
+    
+    '''
     def add_bucket_naively(self, bucket):
         if (VERBOSITY >= 2):
             print("\n\n\n\n\n\n")
             print("Current allocation: ", self.values())
             print("Current bucket: ", bucket)
             
-        bucket = RequestList(filter(
-            lambda r: not self.has_conflict(r),
-            bucket
-        ))
+        bucket = self.filter_bucket(bucket)
         
         if (VERBOSITY >= 2):
             print("Filtered bucket: ", bucket)
 
-        good_bucket = RequestList()
-        poor_bucket = RequestList()
-        
-        for request in bucket:
-            if any(request.is_conflicted_with(another.person, another.wish())
-                for another in bucket
-                if another != request
-            ):
-                poor_bucket.append(request)
-            else:
-                good_bucket.append(request)
+        good_bucket = bucket.get_independent_requests()
+        poor_bucket = bucket - good_bucket
         
         if (VERBOSITY >= 2):
             print("Good bucket: ", good_bucket)
@@ -92,6 +90,67 @@ class Allocation(OrderedDict):
             input("Press ENTER to continue")
         
         return result
+    '''
+    
+    def add_bucket_naively(self, bucket):
+        bucket = self.filter_bucket(bucket)
+        good_bucket = bucket.get_independent_requests()
+        poor_bucket = bucket - good_bucket
+        result = self.extended(good_bucket)
+        
+        if poor_bucket:
+            print("There is a conflict among %d people" % len(poor_bucket))
+            print("\n".join(map(
+                lambda i: "Row %d: %s" % (i, poor_bucket[i]),
+                range(len(poor_bucket))
+            )))
+            while True:
+                print("Enter the ROW NUMBERS of the WINNERS:")
+                indexes = list(map(int, input().split()))
+                take_bucket = RequestList(map(lambda i: poor_bucket[i], indexes))
+                if take_bucket.get_independent_requests() != take_bucket:
+                    print("WARNING: There are conflicts in the last selection")
+                    if input("Confirm: [yN] ") == 'y':
+                        break
+                elif not take_bucket:
+                    print("WARNING: The selection is empty")
+                    if input("Confirm: [yN] ") == 'y':
+                        break
+                else:
+                    break
+            result = self.extended(take_bucket)
+            
+        return result
+    
+    def add_bucket_smart(self, bucket):
+        bucket = self.filter_bucket(bucket)
+        good_bucket = bucket.get_independent_requests()
+        poor_bucket = bucket - good_bucket
+        result = self.extended(good_bucket)
+        
+        if not poor_bucket:
+            result = [result]
+        else:
+            for person in poor_bucket:
+                if person not in conflict_list:
+                    conflict_list.append(person)
+            all_cases = poor_bucket.all_subsets()
+            result = [
+                result.extended(take_bucket)
+                for take_bucket in all_cases
+                if take_bucket.get_independent_requests() == take_bucket
+                if take_bucket
+            ]
+            
+        return result
+    
+    def mark_unallocated(self, bucket_list):
+        result = self
+        for bucket in bucket_list:
+            for request in bucket:
+                if request.person not in result:
+                    result[request.person] = -1
+        return result
     
     def add_bucket_list_naively(self, bucket_list):
         if VERBOSITY >= 1:
@@ -99,11 +158,7 @@ class Allocation(OrderedDict):
         result = self
         for bucket in bucket_list:
             result = result.add_bucket_naively(bucket)
-        for bucket in bucket_list:
-            for request in bucket:
-                if request.person not in result:
-                    result[request.person] = -1
-        return result
+        return result.mark_unallocated(bucket_list)
 
     @staticmethod
     def from_csv(filepath, people):

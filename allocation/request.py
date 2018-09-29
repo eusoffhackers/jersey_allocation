@@ -24,7 +24,7 @@ class Request:
         """ Assume that `person` owns `allocated_number` already """
         wish = self.wish()
         assert wish >= 1 and wish <= 99
-        if allocated_number == -1:
+        if allocated_number in [-1, -2]:
             return False
         if wish == allocated_number:
             if person.wave in UNSHARABLE_WAVES:
