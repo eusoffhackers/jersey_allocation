@@ -9,7 +9,8 @@ SPORTS = ["Badminton", "Basketball", "Floorball", "Frisbee",
     "Touch Rugby", "Track", "Volleyball"]
 
 NO_SPORTS = ["NIL"]
-MIXED_SPORTS = ["Frisbee", "Swimming", "Track", "Road Relay", "Softball"]
+#MIXED_SPORTS = ["Frisbee", "Swimming", "Track", "Road Relay", "Softball"]
+MIXED_SPORTS = ["Frisbee", "Softball"]
 GENDERS = ["Male", "Female"]
 
 class Person:
@@ -21,7 +22,7 @@ class Person:
     """
     
     def __init__(self, **kwargs):
-        required_keys = {"id", "wave", "pts", "opt1", "opt2", "opt3", "sports"}
+        required_keys = {"id", "wave", "gender", "pts", "opt1", "opt2", "opt3", "sports"}
         assert required_keys <= set(kwargs.keys())
         self.__dict__.update(kwargs)
 
@@ -29,24 +30,14 @@ class Person:
         shorten_gender = lambda gender: gender[0] if gender in GENDERS else "X"
         shorten = lambda sp: sp[:3] + shorten_gender(sp.split()[-1])
         sports = '+'.join(map(shorten, self.sports))
-        return "Person(%s, wave=%01d, pts=%02d, %02d, %02d, %02d, %s)" % (
-            self.id, self.wave, self.pts, self.opt1, self.opt2, self.opt3, sports
+        return "Person(%s, wave=%01d, gender=%s, pts=%02d, %02d, %02d, %02d, %s)" % (
+            self.id, self.wave, self.gender, self.pts, self.opt1, self.opt2, self.opt3, sports
         )
     
     def wish(self, rank):
         assert rank in [0, 1, 2]
         return [self.opt1, self.opt2, self.opt3][rank]
 
-    '''
-    @staticmethod
-    def from_string(line):
-        a = [s.strip() for s in line.split(',')]
-        return Person(
-            id=a[0], name=a[1], pts=int(a[2]),
-            opt1=int(a[3]), opt2=int(a[4]), opt3=int(a[5])
-        )
-    '''
-    
     @staticmethod
     def parse_sports(raw_sports, gender):
         assert gender in GENDERS
@@ -61,11 +52,14 @@ class Person:
     
     @staticmethod
     def from_series(row):
+        required_cols = ['id', 'wave', 'gender', 'pts', 'opt1', 'opt2', 'opt3', 'sports']
+        assert set(required_cols) <= set(row.index)
         to_int_def = lambda x, default: int(str(x)) if str(x).isdigit() else default
 
         result = Person(
             id = row['id'],
             wave = to_int_def(row['wave'], -1),
+            gender = row['gender'],
             pts = to_int_def(row['pts'], 0),
             opt1 = to_int_def(row['opt1'], -1),
             opt2 = to_int_def(row['opt2'], -1),
@@ -74,6 +68,7 @@ class Person:
         )
         
         assert result.wave in [1, 2, 3, 4, 5]
+        assert result.gender in GENDERS
         assert str(row['opt1']) == "" or result.opt1 != -1, "Cannot parse '%s'" % str(row['opt1'])
         assert str(row['opt2']) == "" or result.opt2 != -1, "Cannot parse '%s'" % str(row['opt2'])
         assert str(row['opt3']) == "" or result.opt3 != -1, "Cannot parse '%s'" % str(row['opt3'])

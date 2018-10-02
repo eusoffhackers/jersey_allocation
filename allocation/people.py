@@ -10,20 +10,6 @@ class People(list):
         header = "People (len=%d)\n" % len(self)
         return header + '\n'.join(map(str, self))
     
-    '''
-    @staticmethod
-    def from_stdin():
-        people = People()
-        
-        for line in sys.stdin:
-            if line.strip() != "":
-                person = Person.from_string(line)
-                people.append(person)
-            else:
-                break
-        return people
-    '''
-    
     @staticmethod
     def random(n=50):
         return People([Person.random() for i in range(n)])
@@ -55,15 +41,3 @@ class People(list):
 if __name__ == '__main__':
     print(People.from_csv('SMC_test_output.csv'))
     print(People.random())
-    #a = People.from_stdin()
-    #print(a)
-
-"""
-
-Example input:
-
-101, Kien, 10, 111, 222, 333
-102, Julien, 10, 111, 333, 444
-103, Eeshan, 10, 333, 444, 555
-
-"""

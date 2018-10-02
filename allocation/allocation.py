@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-VERBOSITY = 2
-
 import sys, random
 import pandas as pd
 import itertools
@@ -51,47 +49,7 @@ class Allocation(OrderedDict):
             lambda r: not self.has_conflict(r),
             bucket
         ))
-    
-    '''
-    def add_bucket_naively(self, bucket):
-        if (VERBOSITY >= 2):
-            print("\n\n\n\n\n\n")
-            print("Current allocation: ", self.values())
-            print("Current bucket: ", bucket)
-            
-        bucket = self.filter_bucket(bucket)
-        
-        if (VERBOSITY >= 2):
-            print("Filtered bucket: ", bucket)
-
-        good_bucket = bucket.get_independent_requests()
-        poor_bucket = bucket - good_bucket
-        
-        if (VERBOSITY >= 2):
-            print("Good bucket: ", good_bucket)
-            print("Poor bucket: ", poor_bucket)
-        
-        result = self.extended(good_bucket)
-        
-        if poor_bucket:
-            print("There is a conflict among %d people" % len(poor_bucket))
-            print("\n".join(map(
-                lambda i: "Row %d: %s" % (i, poor_bucket[i]),
-                range(len(poor_bucket))
-            )))
-            print("Enter the ROW NUMBERS of the WINNERS:")
-            indexes = list(map(int, input().split()))
-            selected_bucket = list(map(lambda i: poor_bucket[i], indexes))
-            result = self.extended(selected_bucket)
-        
-        if VERBOSITY >= 2:
-            print("Resulted allocation: ", result.values())
-            print("Changes: ", Allocation([(item, result[item]) for item in result if item not in self]))
-            input("Press ENTER to continue")
-        
-        return result
-    '''
-    
+   
     def add_bucket_naively(self, bucket):
         bucket = self.filter_bucket(bucket)
         good_bucket = bucket.get_independent_requests()
@@ -153,8 +111,6 @@ class Allocation(OrderedDict):
         return result
     
     def add_bucket_list_naively(self, bucket_list):
-        if VERBOSITY >= 1:
-            print("Bucket List: ", bucket_list)
         result = self
         for bucket in bucket_list:
             result = result.add_bucket_naively(bucket)
@@ -179,7 +135,7 @@ class Allocation(OrderedDict):
             pass
 
         mapping = OrderedDict([
-            (key.id, value)
+            (key.id, [value, "Info: " + str(key)])
             for key, value in self.items()
         ])
         df = pd.DataFrame.from_dict(mapping, orient='index')
@@ -189,10 +145,3 @@ if __name__ == '__main__':
     people = People.from_csv('SMC_test_output.csv')
     allocation = Allocation.from_csv('allocation.csv', people)
     print(allocation)
-    #a = Allocation.random()
-    #print(a)
-    #b = BucketList.random()
-    #print(b)
-    #c = a.add_bucket_list_naively(b)
-    #print(c)
-    

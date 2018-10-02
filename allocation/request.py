@@ -20,17 +20,18 @@ class Request:
     def key(self):
         return (self.person.wave, self.rank, -self.person.pts, self.wish())
     
-    def is_conflicted_with(self, person, allocated_number): # TODO: will wave 3 and wave 4 share numbers?
+    def is_conflicted_with(self, person, allocated_number):
         """ Assume that `person` owns `allocated_number` already """
         wish = self.wish()
         assert wish >= 1 and wish <= 99
         if allocated_number in [-1, -2]:
             return False
         if wish == allocated_number:
+            if person.wave != self.person.wave:
+                return True
             if person.wave in UNSHARABLE_WAVES:
-                return True
-            if self.person.wave in UNSHARABLE_WAVES:
-                return True
+                if person.gender == self.person.gender:
+                    return True
             if bool(set(self.person.sports) & set(person.sports)):
                 return True
         return False
