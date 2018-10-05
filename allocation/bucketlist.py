@@ -2,6 +2,7 @@
 
 from itertools import groupby
 from requestlist import RequestList
+from request import Request
 
 class BucketList(list):
     
@@ -11,8 +12,7 @@ class BucketList(list):
     
     @staticmethod
     def from_request_list(request_list):
-        fn = lambda r: (r.rank, r.person.pts, r.person.wish(r.rank))
-        groups = groupby(request_list, fn)
+        groups = groupby(request_list, Request.key)
         buckets = [RequestList(g) for k, g in groups]
         return BucketList(buckets)
     

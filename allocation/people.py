@@ -2,7 +2,8 @@
 
 import sys
 import pandas as pd
-from person import Person
+import collections
+from person import Person, MALE, FEMALE
 
 class People(list):
     
@@ -11,23 +12,11 @@ class People(list):
         return header + '\n'.join(map(str, self))
     
     @staticmethod
-    def from_stdin():
-        people = People()
-        
-        for line in sys.stdin:
-            if line.strip() != "":
-                person = Person.from_string(line)
-                people.append(person)
-            else:
-                break
-        return people
-    
-    @staticmethod
     def random(n=50):
         return People([Person.random() for i in range(n)])
     
     @staticmethod
-    def from_csv(filepath): # TODO: seperate M and F teams
+    def from_csv(filepath):
         keep = {
             "full": 'id',
             "wave": 'wave',
@@ -35,40 +24,33 @@ class People(list):
             "second": 'opt2',
             "third": 'opt3',
             "total_points": 'pts',
+            "gender": 'gender',
             "sports": 'sports'
         }
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath, dtype=str).fillna('')
         df = df.rename(lambda s: str(s).partition(' ')[0].lower(), axis='columns')
         df = df.rename(columns=keep)[list(keep.values())]
         assert set(df) == set(keep.values())
         
-        to_int_def = lambda x, default: int(str(x)) if str(x).isdigit() else default
-                
         people = People([
-            Person(
-                id = row['id'],
-                pts = to_int_def(row['pts'], 0),
-                opt1 = to_int_def(row['opt1'], -1),
-                opt2 = to_int_def(row['opt2'], -1),
-                opt3 = to_int_def(row['opt3'], -1)
-            )
+            Person.from_series(row)
             for index, row in df.iterrows()
         ])
         
         return people
+    
+    def get_summary_text(self):
+        male_count = sum(1 for person in self if person.gender == MALE)
+        female_count = sum(1 for person in self if person.gender == FEMALE)
+        wave_count = collections.Counter([person.wave for person in self])
+        return "\n".join([
+            "There are %d people, %d men, %d women" % (len(self), male_count, female_count),
+            "    Wave 1: %d people" % (wave_count.get(1, 0)),
+            "    Wave 2: %d people" % (wave_count.get(2, 0)),
+            "    Wave 3: %d people" % (wave_count.get(3, 0)),
+            "    Wave 4: %d people" % (wave_count.get(4, 0))
+        ])
 
 if __name__ == '__main__':
     print(People.from_csv('SMC_test_output.csv'))
-    #print(People.random())
-    #a = People.from_stdin()
-    #print(a)
-
-"""
-
-Example input:
-
-101, Kien, 10, 111, 222, 333
-102, Julien, 10, 111, 333, 444
-103, Eeshan, 10, 333, 444, 555
-
-"""
+    print(People.random())
