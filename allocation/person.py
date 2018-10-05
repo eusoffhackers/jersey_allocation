@@ -11,7 +11,9 @@ SPORTS = ["Badminton", "Basketball", "Floorball", "Frisbee",
 NO_SPORTS = ["NIL"]
 #MIXED_SPORTS = ["Frisbee", "Swimming", "Track", "Road Relay", "Softball"]
 MIXED_SPORTS = ["Frisbee", "Softball"]
-GENDERS = ["Male", "Female"]
+MALE = "Male"
+FEMALE = "Female"
+GENDERS = [MALE, FEMALE]
 
 class Person:
     """

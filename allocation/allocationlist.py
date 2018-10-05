@@ -14,8 +14,8 @@ class AllocationList(list):
     
     def add_bucket_list(self, bucket_list):
         ttl = 10000
-        
         result = self
+        
         for bucket in bucket_list:
             ttl -= len(result)
             print("Number of branches: %d. TTL = %d" % (len(result), ttl))

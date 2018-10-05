@@ -18,6 +18,29 @@ class Allocation(OrderedDict):
         header = "Allocation (len=%d)\n" % len(self)
         return header + '\n'.join(map(str, self.items()))
     
+    def get_summary_text(self):
+        count_allocated = sum(1 for person in self if self[person] >= 0)
+        count_conflicted = sum(1 for person in self if self[person] == -2)
+        count_none = sum(1 for person in self if self[person] == -1)
+        
+        ok = [
+            any(person.wave == i for person in self) and
+            not any(self[person] < 0 for person in self if person.wave == i)
+            for i in range(1, 5)
+        ]
+        
+        return "\n".join([
+            "There are %d people in the allocation list" % (len(self)),
+            "    %d people have been allocated with a jersey number" % count_allocated,
+            "    %d people need resolving conflicts"  % count_conflicted,
+            "    %d people have not had a jersey number yet"  % count_none,
+            "Wave information:",
+            "    Wave 1: " + ("COMPLETED" if ok[0] else "INCOMPLETED"),
+            "    Wave 2: " + ("COMPLETED" if ok[1] else "INCOMPLETED"),
+            "    Wave 3: " + ("COMPLETED" if ok[2] else "INCOMPLETED"),
+            "    Wave 4: " + ("COMPLETED" if ok[3] else "INCOMPLETED")
+        ])
+    
     @staticmethod
     def random(n=10):
         return Allocation([

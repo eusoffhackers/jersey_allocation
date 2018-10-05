@@ -9,12 +9,12 @@ from bucketlist import BucketList
 from allocation import Allocation
 
 people = People.from_csv(PEOPLE_CSV)
-print(people)
+print(people.get_summary_text())
 
 allocation = Allocation.from_csv(ALLOCATION_CSV, people)
-print(allocation)
+print(allocation.get_summary_text())
 
-wave = int(input("Wave (1, 2, 3, 4, 5): "))
+wave = int(input("Wave (1, 2, 3, 4): "))
 people_in_wave = People(filter(lambda person: person.wave == wave, people))
 request_list = RequestList.from_people(people_in_wave)
 bucket_list = BucketList.from_request_list(request_list)
