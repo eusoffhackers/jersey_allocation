@@ -69,7 +69,7 @@ class Person:
             sports = Person.parse_sports(row['sports'], row['gender'])
         )
         
-        assert result.wave in [1, 2, 3, 4, 5]
+        assert result.wave in [1, 2, 3, 4]
         assert result.gender in GENDERS
         assert str(row['opt1']) == "" or result.opt1 != -1, "Cannot parse '%s'" % str(row['opt1'])
         assert str(row['opt2']) == "" or result.opt2 != -1, "Cannot parse '%s'" % str(row['opt2'])

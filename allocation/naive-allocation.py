@@ -19,7 +19,9 @@ people_in_wave = People(filter(lambda person: person.wave == wave, people))
 request_list = RequestList.from_people(people_in_wave)
 bucket_list = BucketList.from_request_list(request_list)
 allocation = allocation.add_bucket_list_naively(bucket_list)
-print(allocation)
+
+print("\nDone.\n")
+print(allocation.get_summary_text())
 
 can_save = input("Save to %s [yN]: " % ALLOCATION_CSV).lower() == 'y'
 

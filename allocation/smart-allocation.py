@@ -25,10 +25,14 @@ bucket_list = BucketList.from_request_list(request_list)
 allocation_list = allocation_list.add_bucket_list(bucket_list)
 allocation = allocation_list.flatten()
 
-print(allocation)
+print("\nDone.\n")
+print(allocation.get_summary_text())
 
-print("List of conflicted requests (in order):")
-print("\n".join(map(str, conflict_list)))
+if conflict_list:
+    print("List of conflicted requests (in order):")
+    print("\n".join(map(str, conflict_list)))
+else:
+    print("There are no conflicts.")
 
 can_save = input("Save to %s [yN]: " % ALLOCATION_CSV).lower() == 'y'
 

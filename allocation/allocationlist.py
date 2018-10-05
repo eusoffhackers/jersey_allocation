@@ -18,7 +18,8 @@ class AllocationList(list):
         
         for bucket in bucket_list:
             ttl -= len(result)
-            print("Number of branches: %d. TTL = %d" % (len(result), ttl))
+            if (ttl < 5000):
+                print("Number of branches: %d. TTL = %d" % (len(result), ttl))
             if ttl < 0:
                 print("List of conflicted requests (in order):")
                 print("\n".join(map(str, conflict_list)))
