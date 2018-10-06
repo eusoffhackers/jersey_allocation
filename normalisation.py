@@ -52,8 +52,6 @@ mapping_headers = {
 
 sports = {"aquathlon", "badminton", "basketball", "biathlon", "cross country", "floorball", "frisbee", "handball", "lifesaving", "netball", "soccer", "softball", "squash", "swimming", "table tennis", "tennis", "touch rugby", "track and field", "triathlon", "volleyball", "water polo"}
 
-data_frame = pd.read_csv("SMC_test_data.csv")
-
 
 def yes_no(string):
     answer = "yes"

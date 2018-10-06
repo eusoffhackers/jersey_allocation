@@ -165,6 +165,6 @@ class Allocation(OrderedDict):
         df.to_csv(filepath, header=False)
 
 if __name__ == '__main__':
-    people = People.from_csv('SMC_test_output.csv')
+    people = People.from_csv('normalisation_output.csv')
     allocation = Allocation.from_csv('allocation.csv', people)
     print(allocation)
