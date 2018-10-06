@@ -7,7 +7,6 @@ SPORTS = ["Badminton", "Basketball", "Floorball", "Frisbee",
     "Handball", "Netball", "Road Relay", "Sepak Takraw", "Soccer",
     "Softball", "Squash", "Swimming", "Table Tennis", "Tennis",
     "Touch Rugby", "Track", "Volleyball"]
-
 NO_SPORTS = ["NIL"]
 #MIXED_SPORTS = ["Frisbee", "Swimming", "Track", "Road Relay", "Softball"]
 MIXED_SPORTS = ["Frisbee", "Softball"]

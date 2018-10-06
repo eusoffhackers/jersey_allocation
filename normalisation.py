@@ -50,7 +50,7 @@ mapping_headers = {
     "third_choice": "Third Choice Number"
 }
 
-sports = {"aquathlon", "badminton", "basketball", "biathlon", "cross country", "floorball", "frisbee", "handball", "lifesaving", "netball", "soccer", "softball", "squash", "swimming", "table tennis", "tennis", "touch rugby", "track and field", "triathlon", "volleyball", "water polo"}
+sports = {"aquathlon", "badminton", "basketball", "biathlon", "cross country", "floorball", "frisbee", "handball", "lifesaving", "netball", "road relay", "sepak takraw", "soccer", "softball", "squash", "swimming", "table tennis", "tennis", "touch rugby", "track", "triathlon", "volleyball", "water polo"}
 
 
 def yes_no(string):
