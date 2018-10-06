@@ -43,14 +43,11 @@ mapping_headers = {
     "name": "Full Name",
     "gender": "Gender",
     "is_captain": "Are you Captain of a Sport",
-    "representing_sports_ivp": "Are you representing NUS (Competed in IVP/SUNIG A) - indicate yes/no and which sport(s)",
-    "sports_currently_in": "Sports you are currently in this season (after the latest cut)",
-    "core_sport": "What is your core sport?  (Your jersey orders will be given to this TM)",
-    "main_jersey": "Main Jersey- Yellow ($17) (for all sports except Track, Road Relay and Trug)",
-    "first_choice": "First Choice",
-    "second_choice": "Second Choice",
-    "third_choice": "Third Choice"
-
+    "representing_sports_ivp": "Have you represented NUS (SUNIG/IVP) in the following sports:",
+    "sports_currently_in": "Sports you are currently in (after latest cut)",
+    "first_choice": "First Choice Number",
+    "second_choice": "Second Choice Number",
+    "third_choice": "Third Choice Number"
 }
 
 sports = {"aquathlon", "badminton", "basketball", "biathlon", "cross country", "floorball", "frisbee", "handball", "lifesaving", "netball", "soccer", "softball", "squash", "swimming", "table tennis", "tennis", "touch rugby", "track and field", "triathlon", "volleyball", "water polo"}
@@ -74,7 +71,7 @@ all_sports_represented_IVP_SUNIG_list = []
 
 def calculate_points_subroutine(iter, the_column, the_set):
     score = 0
-    the_cell_partition = the_column[iter].split(",")
+    the_cell_partition = the_column[iter].split(";")
 
     # keep NONE as a option for
     if "none" in the_cell_partition:
@@ -93,7 +90,7 @@ def calculate_points_subroutine(iter, the_column, the_set):
 # calculates the final points .. takes into consideration .. the possible
 # since a player is a captain of atmost 1 team .. consider yes / no
 def calculate_points():
-    data_frame = pd.read_csv("SMC_test_data.csv")
+    data_frame = pd.read_csv("SMC_input.csv")
     is_captain_column = data_frame[str(mapping_headers["is_captain"])]
     is_captain_column = is_captain_column.str.lower()
     is_captain_column = is_captain_column.str.strip()
@@ -127,30 +124,30 @@ def calculate_points():
 
         final_score.insert(iteration, score)
 
+    data_frame["total_points"] = final_score
+    data_frame["captain_points"] = is_captain_score_list
+    data_frame["sports_enrolled_in_points"] = all_sports_enrolled_in_score_list
+    data_frame["sports_represented_points"] = all_sports_represented_IVP_SUNIG_list
+    return data_frame
 
-calculate_points()
-data_frame["total_points"] = final_score
 
-# uncooment to test against SMC_test_data_2.csv
-'''
-print(" FINAL POINTS")
-print(final_score)
-print()
-print("CAPTAIN POINTS")
-print(is_captain_score_list)
-print()
-print(" SPORTS ENROLLED IN POINTS : ")
-print(all_sports_enrolled_in_score_list)
-print()
-print(" ALL SPORTS REPRESENTED : ")
-print(all_sports_represented_IVP_SUNIG_list)
-print()
-'''
+output_df = calculate_points()
 
-data_frame["captain_points"] = is_captain_score_list
-data_frame["sports_enrolled_in_points"] = all_sports_enrolled_in_score_list
-data_frame["sports_represented_points"] = all_sports_represented_IVP_SUNIG_list
+# uncomment to test against SMC_test_data_2.csv
+# print(" FINAL POINTS")
+# print(final_score)
+# print()
+# print("CAPTAIN POINTS")
+# print(is_captain_score_list)
+# print()
+# print(" SPORTS ENROLLED IN POINTS : ")
+# print(all_sports_enrolled_in_score_list)
+# print()
+# print(" ALL SPORTS REPRESENTED : ")
+# print(all_sports_represented_IVP_SUNIG_list)
+# print()
 
-file_name = str(input("Enter the output file name :"))
+file_name = 'allocation/normalisation_output.csv'
 
-data_frame.to_csv(file_name, sep=',' , encoding='utf-8')
+output_df.to_csv(file_name, sep=',' , encoding='utf-8')
+print('Points computed. {} created in allocation folder!'.format(file_name))

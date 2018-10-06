@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-PEOPLE_CSV = 'SMC_test_output.csv'
+PEOPLE_CSV = 'normalisation_output.csv'
 ALLOCATION_CSV = 'allocation.csv'
 
 from people import People

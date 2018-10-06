@@ -18,17 +18,16 @@ class People(list):
     @staticmethod
     def from_csv(filepath):
         keep = {
-            "full": 'id',
-            "wave": 'wave',
-            "first": 'opt1',
-            "second": 'opt2',
-            "third": 'opt3',
+            "Full Name": 'id',
+            "Wave": 'wave',
+            "First Choice Number": 'opt1',
+            "Second Choice Number": 'opt2',
+            "Third Choice Number": 'opt3',
             "total_points": 'pts',
-            "gender": 'gender',
-            "sports": 'sports'
+            "Gender": 'gender',
+            "Sports you are currently in (after latest cut)": 'sports'
         }
         df = pd.read_csv(filepath, dtype=str).fillna('')
-        df = df.rename(lambda s: str(s).partition(' ')[0].lower(), axis='columns')
         df = df.rename(columns=keep)[list(keep.values())]
         assert set(df) == set(keep.values())
         
@@ -52,5 +51,5 @@ class People(list):
         ])
 
 if __name__ == '__main__':
-    print(People.from_csv('SMC_test_output.csv'))
+    print(People.from_csv('normalisation_output.csv'))
     print(People.random())
