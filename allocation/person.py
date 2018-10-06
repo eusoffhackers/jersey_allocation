@@ -45,7 +45,7 @@ class Person:
         assert gender in GENDERS
         if raw_sports in NO_SPORTS:
             return []
-        sports = raw_sports.split(', ')
+        sports = raw_sports.split(';')
         assert set(sports) <= set(SPORTS)
         return [
             sp if sp in MIXED_SPORTS else sp + " " + gender
