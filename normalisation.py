@@ -131,7 +131,7 @@ def calculate_points():
 
 output_df = calculate_points()
 
-# uncomment to test against SMC_test_data_2.csv
+# uncomment to test
 # print(" FINAL POINTS")
 # print(final_score)
 # print()
@@ -144,6 +144,9 @@ output_df = calculate_points()
 # print(" ALL SPORTS REPRESENTED : ")
 # print(all_sports_represented_IVP_SUNIG_list)
 # print()
+
+wave_num = str(input("Enter wave number (1, 2, 3, 4):"))
+output_df['Wave'] = wave_num
 
 file_name = 'allocation/normalisation_output.csv'
 
