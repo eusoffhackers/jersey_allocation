@@ -44,16 +44,11 @@ pip install pandas
 ## Running the Scripts
 ### Normalisation Script
 
-First, rename the csv file containing the google sheet responses as `SMC_input.csv`.
+First, rename the csv file containing the google sheet responses as `SMC_input.csv`. Then, remember to add in a column named `Wave` and add in the wave number (1, 2, 3, 4).
 
 In order to run the script, simply type in the following commands:
 ```
 python normalisation.py
-```
-
-It will prompt you for the wave number (this is under the assumption that each wave is an independent csv file:
-```
-Enter wave number (1, 2, 3, 4):
 ```
 
 If everything works, it will show the following message, and you will find a new normalisation_output.csv created in your `allocation` folder.

@@ -145,9 +145,6 @@ output_df = calculate_points()
 # print(all_sports_represented_IVP_SUNIG_list)
 # print()
 
-wave_num = str(input("Enter wave number (1, 2, 3, 4):"))
-output_df['Wave'] = wave_num
-
 file_name = 'allocation/normalisation_output.csv'
 
 output_df.to_csv(file_name, sep=',' , encoding='utf-8')
