@@ -53,9 +53,8 @@ mapping_headers = {
 
 }
 
-sports = {"soccer", "softball", "rugby", "netball", "dragonboat", "floorball", "tennis", "basketball", "takraw",
-          "swimming", "table tennis", "track", "touch rugby", "road relay", "handball", "squash", "badminton",
-          "water polo","frisbee"}
+sports = {"aquathlon", "badminton", "basketball", "biathlon", "cross country", "floorball", "frisbee", "handball", "lifesaving", "netball", "soccer", "softball", "squash", "swimming", "table tennis", "tennis", "touch rugby", "track and field", "triathlon", "volleyball", "water polo"}
+
 data_frame = pd.read_csv("SMC_test_data.csv")
 
 
