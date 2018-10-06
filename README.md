@@ -33,6 +33,14 @@ git clone https://github.com/eusoffhackers/jersey_allocation.git
 
 Tadah! The folder is now on your computer! Good job.
 
+
+3. Now you will need to set-up python and pandas onto your computer. These are just programming tools that are used by the script. Find out how to install python here: https://realpython.com/installing-python/#step-1-download-the-python-3-installer
+
+Install pandas by simply keying in:
+```
+pip install pandas
+```
+
 ## Running the Scripts
 ### Normalisation Script
 
