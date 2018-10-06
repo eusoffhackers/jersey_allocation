@@ -44,28 +44,28 @@ pip install pandas
 ## Running the Scripts
 ### Normalisation Script
 
+First, rename the csv file containing the google sheet responses as `SMC_input.csv`.
+
 In order to run the script, simply type in the following commands:
 ```
 python normalisation.py
 ```
 
-It will prompt you to name the output file, for now, just do the following:
+If everything works, it will show the following message, and you will find a new normalisation_output.csv created in your `allocation` folder.
 ```
-Enter the output file name :SMC_test_output.csv
+Points computed. normalisation_output.csv created in allocation folder!
 ```
 
 You should see a CSV file being created on your local computer with all the points calculated!
 
 ### Allocation Script
-1. Copy the output csv of the Normalisation Script into the `allocation` folder
-```
-cp SMC_test_output.csv allocation
-```
-Or just drag the file over on your computer
 
-2. Change the working directory to the `allocation` folder using the cd command
+1. Change the working directory to the `allocation` folder using the cd command
+```
+cd allocation
+```
 
-3. In order to run the script, simply type in the following commands:
+2. In order to run the script, simply type in the following commands:
 ```
 python smart-allocation.py
 ```
