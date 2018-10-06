@@ -1,7 +1,7 @@
 # Jersey Allocation Automation
 This repo contains the jersey allocation scripts, developed by Eusoff Hackers for use by Eusoff SMC. The objective of this script is to reduce the time cost and error rate of the annual jersey allocation process in Eusoff.
 
-This process can be structured into two independent scripts - the normalization.py & smart_allocation.py scripts. The normalization.py script simply calculates the points for each sportsman (you will have to add in the wave number column yourself) and the smart_allocation.py script would allocate the jersey numbers.
+This process can be structured into two independent scripts - the normalisation.py & smart_allocation.py scripts. The normalisation.py script simply calculates the points for each sportsman (you will have to add in the wave number column yourself) and the smart_allocation.py script would allocate the jersey numbers.
 
 ## Getting Started
 To begin, simply open up your local command line (Windows) or Terminal (Mac). Some simple commands on Command line can be found here: https://arian-celina.com/windows-cmd-macos-terminal-navigation/
@@ -34,11 +34,11 @@ git clone https://github.com/eusoffhackers/jersey_allocation.git
 Tadah! The folder is now on your computer! Good job.
 
 ## Running the Scripts
-### Normalization Script
+### Normalisation Script
 
 In order to run the script, simply type in the following commands:
 ```
-python normalization.py
+python normalisation.py
 ```
 
 It will prompt you to name the output file, for now, just do the following:
@@ -49,7 +49,7 @@ Enter the output file name :SMC_test_output.csv
 You should see a CSV file being created on your local computer with all the points calculated!
 
 ### Allocation Script
-1. Copy the output csv of the Normalization Script into the `allocation` folder
+1. Copy the output csv of the Normalisation Script into the `allocation` folder
 ```
 cp SMC_test_output.csv allocation
 ```
