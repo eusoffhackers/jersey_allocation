@@ -51,6 +51,11 @@ In order to run the script, simply type in the following commands:
 python normalisation.py
 ```
 
+It will prompt you for the wave number (this is under the assumption that each wave is an independent csv file:
+```
+Enter wave number (1, 2, 3, 4):
+```
+
 If everything works, it will show the following message, and you will find a new normalisation_output.csv created in your `allocation` folder.
 ```
 Points computed. normalisation_output.csv created in allocation folder!
