@@ -69,7 +69,7 @@ all_sports_represented_IVP_SUNIG_list = []
 
 def calculate_points_subroutine(iter, the_column, the_set):
     score = 0
-    the_cell_partition = the_column[iter].split(";")
+    the_cell_partition = str(the_column[iter]).split(";")
 
     # keep NONE as a option for
     if "none" in the_cell_partition:
