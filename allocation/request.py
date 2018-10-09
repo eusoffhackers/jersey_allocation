@@ -28,7 +28,8 @@ class Request:
             return False
         if wish == allocated_number:
             if person.wave != self.person.wave:
-                return True
+                if person.gender == self.person.gender:
+                    return True
             if person.wave in UNSHARABLE_WAVES:
                 if person.gender == self.person.gender:
                     return True
